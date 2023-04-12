@@ -12,7 +12,7 @@ import (
 type Friend struct {
 	Id        int            `json:"id" gorm:"autoIncrement"`
 	WechatId  string         `json:"wechat_id" gorm:"autoIncrement"`
-	NickName  string         `json:"nickname" gorm:"size:200;not null"`
+	NickName  string         `json:"nick_name" gorm:"size:200;not null"`
 	Avatar    string         `json:"avatar" gorm:"size:200;not null"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
@@ -38,4 +38,12 @@ func (m *Friend) Seeder() {
 // 插入数据
 func (m *Friend) Insert(friend *Friend) {
 	db.Client.Create(&friend)
+}
+
+// 获取信息
+func (m *Friend) GetInfoByWechatId(wechatId string) *Friend {
+	var friend = &Friend{}
+	db.Client.Where("wechat_id = ?", wechatId).First(friend)
+
+	return friend
 }

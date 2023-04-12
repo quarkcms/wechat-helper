@@ -39,13 +39,9 @@ func (p *Friend) Fields(ctx *builder.Context) []interface{} {
 
 		field.Text("wechat_id", "微信ID"),
 
-		field.Text("nickname", "昵称"),
+		field.Image("avatar", "头像"),
 
-		field.Switch("status", "状态").
-			SetTrueValue("正常").
-			SetFalseValue("禁用").
-			SetEditable(true).
-			SetDefault(true),
+		field.Text("nick_name", "昵称"),
 	}
 }
 
@@ -53,7 +49,7 @@ func (p *Friend) Fields(ctx *builder.Context) []interface{} {
 func (p *Friend) Searches(ctx *builder.Context) []interface{} {
 
 	return []interface{}{
-		(&searches.Input{}).Init("name", "好友昵称"),
+		(&searches.Input{}).Init("nick_name", "好友昵称"),
 		(&searches.Status{}).Init(),
 	}
 }

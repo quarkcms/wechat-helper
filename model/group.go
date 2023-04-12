@@ -38,3 +38,11 @@ func (m *Group) Seeder() {
 func (m *Group) Insert(group *Group) {
 	db.Client.Create(&group)
 }
+
+// 获取信息
+func (m *Group) GetInfoByWechatId(wechatId string) *Group {
+	var group = &Group{}
+	db.Client.Where("wechat_id = ?", wechatId).First(group)
+
+	return group
+}
