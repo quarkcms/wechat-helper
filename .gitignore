@@ -28,3 +28,9 @@ website/storage
 
 # 日志文件
 app.log
+
+# 安装锁定文件
+install.lock
+
+# 数据库文件
+data.db
