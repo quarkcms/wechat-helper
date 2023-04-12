@@ -5,9 +5,25 @@ import (
 	"github.com/quarkcms/quark-go/pkg/app/install"
 	"github.com/quarkcms/quark-go/pkg/app/middleware"
 	"github.com/quarkcms/quark-go/pkg/builder"
+	"github.com/quarkcms/quark-go/pkg/dal/db"
+	"github.com/quarkcms/wechat-helper/model"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
+
+// 自动构建本地数据库
+func DBMigrate() {
+
+	// 迁移数据
+	db.Client.AutoMigrate(
+		&model.Friend{},
+		&model.Group{},
+	)
+
+	// 数据填充
+	(&model.Friend{}).Seeder()
+	(&model.Group{}).Seeder()
+}
 
 func main() {
 
@@ -22,7 +38,7 @@ func main() {
 
 	// 配置资源
 	config := &builder.Config{
-		AppKey:    "123456",
+		AppKey:    "abcdefg",
 		Providers: providers,
 		DBConfig: &builder.DBConfig{
 			Dialector: sqlite.Open(dsn),
@@ -38,6 +54,9 @@ func main() {
 
 	// 自动构建数据库、拉取静态文件
 	install.Handle()
+
+	// 自动构建本地数据库
+	// DBMigrate()
 
 	// 后台中间件
 	b.Use(middleware.Handle)
