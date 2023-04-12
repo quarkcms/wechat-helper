@@ -80,8 +80,7 @@ func (p *Sync) Handle(ctx *builder.Context, query *gorm.DB) interface{} {
 	for _, friend := range friends {
 
 		// 已存在跳出本次循环
-		friendInfo := (&model.Friend{}).GetInfoByWechatId(friend.ID())
-		if friendInfo.Id != 0 {
+		if (&model.Friend{}).IsExist(friend.ID()) {
 			continue
 		}
 
@@ -122,8 +121,7 @@ func (p *Sync) Handle(ctx *builder.Context, query *gorm.DB) interface{} {
 	for _, group := range groups {
 
 		// 已存在跳出本次循环
-		groupInfo := (&model.Group{}).GetInfoByWechatId(group.ID())
-		if groupInfo.Id != 0 {
+		if (&model.Group{}).IsExist(group.ID()) {
 			continue
 		}
 

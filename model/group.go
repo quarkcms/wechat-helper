@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"time"
 
 	appmodel "github.com/quarkcms/quark-go/pkg/app/model"
@@ -39,10 +40,10 @@ func (m *Group) Insert(group *Group) {
 	db.Client.Create(&group)
 }
 
-// 获取信息
-func (m *Group) GetInfoByWechatId(wechatId string) *Group {
+// 判断是否存在信息
+func (m *Group) IsExist(wechatId string) bool {
 	var group = &Group{}
-	db.Client.Where("wechat_id = ?", wechatId).First(group)
+	err := db.Client.Where("wechat_id = ?", wechatId).First(group).Error
 
-	return group
+	return !errors.Is(err, gorm.ErrRecordNotFound)
 }
