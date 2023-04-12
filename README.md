@@ -2,7 +2,7 @@
 
 Overview:
 
-A simple demo based on QuarkGo
+A simple demo with QuarkGo
 
 Install:
 
