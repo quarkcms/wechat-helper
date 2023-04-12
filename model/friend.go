@@ -13,7 +13,7 @@ type Friend struct {
 	Id        int            `json:"id" gorm:"autoIncrement"`
 	WechatId  string         `json:"wechat_id" gorm:"autoIncrement"`
 	NickName  string         `json:"nick_name" gorm:"size:200;not null"`
-	Avatar    string         `json:"avatar" gorm:"size:200;not null"`
+	Avatar    string         `json:"avatar" gorm:"size:200"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `json:"deleted_at"`

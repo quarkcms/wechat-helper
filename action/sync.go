@@ -99,19 +99,19 @@ func (p *Sync) Handle(ctx *builder.Context, query *gorm.DB) interface{} {
 				return err
 			}
 		}
+		friendData := &model.Friend{
+			WechatId: friend.ID(),
+			NickName: friend.NickName,
+		}
 
 		// 保存头像到本地
 		err := friend.SaveAvatar(savePath + fileName)
-		if err != nil {
-			return ctx.SimpleError(err.Error())
+		if err == nil {
+			friendData.Avatar = fileUrl + fileName
 		}
 
 		// 入库
-		(&model.Friend{}).Insert(&model.Friend{
-			WechatId: friend.ID(),
-			NickName: friend.NickName,
-			Avatar:   fileUrl + fileName,
-		})
+		(&model.Friend{}).Insert(friendData)
 	}
 
 	// 获取所有的群组
@@ -142,18 +142,19 @@ func (p *Sync) Handle(ctx *builder.Context, query *gorm.DB) interface{} {
 			}
 		}
 
+		groupData := &model.Group{
+			WechatId: group.ID(),
+			Name:     group.NickName,
+		}
+
 		// 保存头像到本地
 		err := group.SaveAvatar(savePath + fileName)
-		if err != nil {
-			return ctx.SimpleError(err.Error())
+		if err == nil {
+			groupData.Cover = fileUrl + fileName
 		}
 
 		// 入库
-		(&model.Group{}).Insert(&model.Group{
-			WechatId: group.ID(),
-			Name:     group.NickName,
-			Cover:    fileUrl + fileName,
-		})
+		(&model.Group{}).Insert(groupData)
 	}
 
 	// 阻塞主goroutine, 直到发生异常或者用户主动退出

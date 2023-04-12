@@ -13,7 +13,7 @@ type Group struct {
 	Id        int            `json:"id" gorm:"autoIncrement"`
 	WechatId  string         `json:"wechat_id" gorm:"autoIncrement"`
 	Name      string         `json:"name" gorm:"size:200;not null"`
-	Cover     string         `json:"cover" gorm:"size:200;not null"`
+	Cover     string         `json:"cover" gorm:"size:200"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `json:"deleted_at"`
