@@ -7,6 +7,7 @@ import (
 	"github.com/quarkcms/quark-go/pkg/builder"
 	"github.com/quarkcms/quark-go/pkg/dal/db"
 	"github.com/quarkcms/wechat-helper/model"
+	"github.com/quarkcms/wechat-helper/resource"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -27,8 +28,11 @@ func DBMigrate() {
 
 func main() {
 
-	// 定义服务
-	var providers []interface{}
+	// 注册服务
+	providers := []interface{}{
+		&resource.Friend{},
+		&resource.Group{},
+	}
 
 	// 数据库配置信息
 	dsn := "./data.db"
@@ -56,14 +60,14 @@ func main() {
 	install.Handle()
 
 	// 自动构建本地数据库
-	// DBMigrate()
+	DBMigrate()
 
 	// 后台中间件
 	b.Use(middleware.Handle)
 
-	// 响应Get请求
+	// 重定向到后台管理
 	b.GET("/", func(ctx *builder.Context) error {
-		return ctx.String(200, "Hello World!")
+		return ctx.Redirect(301, "/admin/")
 	})
 
 	// 启动服务
